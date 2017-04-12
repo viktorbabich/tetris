@@ -38,7 +38,7 @@
 			this.y = data.y; // 0
 
 			this.id = data.id ? data.id : Math.random().toString(16).slice(2);
-			this.filled = true;
+			this.filled = false;
 		}
 
 		app = { 
@@ -50,8 +50,6 @@
 			var result = {};
 			result.x = 0; 
 			result.y = 0;
-			
-			console.log(result);
 				for(var i = 0; i < 20; i++) {
 					for(var n = 0; n < 10; n++) {
 						app.addSquare(result);
@@ -60,10 +58,39 @@
 					result.y += 50;
 					result.x = 0;			
 				}
-			}
+			},
 		}
 		app.collectPoints();
-		console.log(list[0])
+		list[2].filled = true;
+
+		var square = {x: 200, y: 0};
+
+		// var nextSquare = { x: list[2].x, y: list[2].y + 50};
+		// list.forEach(function(item) {
+		// 	if((nextSquare.x == item.x) && (nextSquare.y == item.y)) {
+		// 		item.filled = true;
+		// 	}
+
+		// });
+		// app.fillSquare();
+		console.log(list)
+
+
+		function moveSquare(square) {
+			list.forEach(function(item) {
+				if((square.x == item.x) && (square.y-HEIGHT == item.y)) {
+					item.filled = false;
+					ctx.clearRect(item.x,item.y, WIDTH, HEIGHT);
+				} else if ((square.x == item.x) && (square.y == item.y)) {
+					item.filled = true;
+					ctx.fillStyle = 'green';
+					ctx.fillRect(item.x, item.y, WIDTH, HEIGHT);
+				};
+			});
+			square.y += HEIGHT;
+			window.setTimeout(moveSquare, 1000, square);
+		}
+		moveSquare(square);
 
 	// зарисовать все поле 
 		
@@ -88,43 +115,53 @@
 	// детали тетриса
 	// прямая линия
 
-		var obj_1 = [
-			{x: 0, y: 0}, 
-			{x: WIDTH, y:0},   
-			{x: WIDTH*2, y:0},   
-			{x: WIDTH*3, y:0}  
-		];
-		var obj_2 = [
-			{x: 0, y: 0}, 
-			{x: WIDTH, y:0},   
-			{x: WIDTH*2, y:0},   
-			{x: WIDTH*3, y:0}  
-		];
-		var obj_3 = [
-			{x: 0, y: 0}, 
-			{x: WIDTH, y:0},   
-			{x: WIDTH*2, y:0},   
-			{x: WIDTH*3, y:0}  
-		];
-		var obj_4 = [
-			{x: 0, y: 0}, 
-			{x: WIDTH, y:0},   
-			{x: WIDTH*2, y:0},   
-			{x: WIDTH*3, y:0}  
-		];
-		var obj_5 = [
-			{x: 0, y: 0}, 
-			{x: WIDTH, y:0},   
-			{x: WIDTH*2, y:0},   
-			{x: WIDTH*3, y:0}  
-		];
-		var obj_6 = [
-			{x: 0, y: 0}, 
-			{x: WIDTH, y:0},   
-			{x: WIDTH*2, y:0},   
-			{x: WIDTH*3, y:0}  
-		];
 
+
+		// var obj_1 = [
+		// 	{x: 0, y: 0}, 
+		// 	{x: WIDTH, y:0},   
+		// 	{x: WIDTH*2, y:0},   
+		// 	{x: WIDTH*3, y:0}  
+		// ];
+
+		// var obj_2 = [
+		// 	{x: 0, y: 0}, 
+		// 	{x: WIDTH, y:0},   
+		// 	{x: WIDTH*2, y:0},   
+		// 	{x: WIDTH*3, y:0}  
+		// ];
+		// var obj_3 = [
+		// 	{x: 0, y: 0}, 
+		// 	{x: WIDTH, y:0},   
+		// 	{x: WIDTH*2, y:0},   
+		// 	{x: WIDTH*3, y:0}  
+		// ];
+		// var obj_4 = [
+		// 	{x: 0, y: HEIGHT}, 
+		// 	{x: WIDTH, y:HEIGHT},   
+		// 	{x: WIDTH, y:0},   
+		// 	{x: WIDTH*2, y:0}  
+		// ];
+		// var obj_5 = [
+		// 	{x: 0, y: 0}, 
+		// 	{x: WIDTH, y:0},   
+		// 	{x: WIDTH*2, y:0},   
+		// 	{x: WIDTH*3, y:0}  
+		// ];
+		// var obj_6 = [
+		// 	{x: 0, y: 0}, 
+		// 	{x: WIDTH, y:0},   
+		// 	{x: WIDTH*2, y:0},   
+		// 	{x: WIDTH*3, y:0}  
+		// ];
+
+		// var fillObj = function(data) {
+		// 	ctx.fillStyle = 'green';
+		// 	data.forEach(function(item) {
+		// 		ctx.fillRect(item.x, item.y, WIDTH, HEIGHT);
+		// 	});
+		// }
+		// fillObj(obj_4);
 	</script>
 </body>
 </html>
