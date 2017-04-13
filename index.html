@@ -88,6 +88,7 @@
 				};
 			});
 			square.y += HEIGHT;
+			if(square.y == canvas.height) {return};
 			window.setTimeout(moveSquare, 1000, square);
 		}
 		moveSquare(square);
