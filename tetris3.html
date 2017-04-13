@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="author" content="test22">
+	<title>tetris</title>
+	<style>
+		#canvas {
+			background: #000;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width='500' height='1000'></canvas>
+	<script>
+
+	var canvas, ctx, list, WIDTH, HEIGHT;
+	canvas = document.getElementById('canvas');
+	ctx    = canvas.getContext('2d');
+	list   = []; // массив квадратов сетки
+	WIDTH  = 50;  // ширина квадрата сетки
+	HEIGHT = WIDTH; // высота квадрата сетки
+	var X  = 200; // начальная точка падения
+	
+	var obj_1, obj_2, obj_3, obj_4, obj_5, obj_6;
+
+	obj_1 = [
+		{x: X, y: 0}, 
+		{x: X+WIDTH, y: 0},   
+		{x: X+WIDTH*2, y:0},   
+		{x: X+WIDTH*3, y:0}  
+	];
+	obj_2 = [
+		{x: X, y:HEIGHT},   
+		{x: X+WIDTH, y:HEIGHT},  
+		{x: X, y: 0}, 
+		{x: X+WIDTH, y:0},   
+	];
+	obj_3 = [
+		{x: X, y: HEIGHT},  
+		{x: X+WIDTH, y:HEIGHT},   
+		{x: X+WIDTH*2, y:HEIGHT}, 
+		{x: X+WIDTH*2, y: 0},  
+	];
+	obj_4 = [
+		{x: X, y: HEIGHT},  
+		{x: X, y: 0},  
+		{x: X+WIDTH, y:HEIGHT},   
+		{x: X+WIDTH*2, y:HEIGHT}  
+	];
+	obj_5 = [
+		{x: X, y: HEIGHT}, 
+		{x: X+WIDTH, y:HEIGHT},   
+		{x: X+WIDTH, y:0},   
+		{x: X+WIDTH*2, y:0}  
+	];
+	obj_6 = [
+		{x: X+WIDTH, y: HEIGHT},   
+		{x: X+WIDTH*2, y: HEIGHT},  
+		{x: X+WIDTH, y: 0},   
+		{x: X, y: 0}, 
+	];
+
+// конструктор квадратов
+
+		function Square(data) {
+			if (!data) { data = {}};
+			
+			this.x = data.x; // 0 
+			this.y = data.y; // 0
+
+			this.id = data.id ? data.id : Math.random().toString(16).slice(2);
+			this.filled = false;
+		}
+
+// приложение тетрис
+
+		app = { 
+			createGrid: function(data) {
+				var square = new Square(data);
+				list.push(square);
+			},
+			collectPoints: function() {		
+				var result = {};
+				result.x = 0; 
+				result.y = 0;
+					for(var i = 0; i < 20; i++) {
+						for(var n = 0; n < 10; n++) {
+							app.createGrid(result);
+							result.x += 50;
+						}
+					result.y += 50;
+					result.x = 0;			
+				}
+			},
+			moveSquare: function(data) {
+				var f = false;
+				list.forEach(function(item) {
+					data.forEach(function(obj) {
+						if((obj.y+50 == item.y) && (item.filled == true)) {f=true;}
+				
+						else if((obj.x == item.x) && (obj.y == item.y)) {
+							item.filled = true;
+						}
+					});
+				});
+				app.clearRect();
+				app.fillRect();
+				data.forEach(function(obj) {
+					obj.y+= HEIGHT;
+					if(obj.y == canvas.height) {f=true};
+				});
+				if(f===true) {return};
+				window.setTimeout(app.moveSquare, 1000, data); 		
+			},
+			fillRect: function() {
+				list.forEach(function(item) {
+					if(item.filled == true) {
+						ctx.fillStyle = 'green';
+						ctx.fillRect(item.x, item.y, WIDTH, HEIGHT);
+					}
+				});
+			},
+			clearRect: function() {
+				list.forEach(function(item) {
+					if(item.filled == false) {
+						ctx.clearRect(item.x, item.y, WIDTH, HEIGHT);
+					}
+				});
+			} 
+		};
+		app.collectPoints();
+		app.moveSquare(obj_1);
+
+
+		// function moveSquare(data) {
+		// 	var f = false;
+		// 	list.forEach(function(item) {
+		// 		data.forEach(function(obj) {
+		// 			if((obj.y+50 == item.y) && (item.filled == true)) {f=true;};
+		// 		});
+		// 	}); 
+		// 	list.forEach(function(item) {
+		// 		data.forEach(function(obj) {
+		// 			if((obj.x == item.x) && (obj.y-HEIGHT == item.y)) {
+		// 					item.filled = false;
+		// 					ctx.clearRect(item.x,item.y, WIDTH, HEIGHT);
+		// 			} else if((obj.x == item.x) && (obj.y == item.y)) {
+		// 				item.filled = true;
+		// 				ctx.fillStyle = 'green';
+		// 				ctx.fillRect(item.x, item.y, WIDTH, HEIGHT);
+		// 			}
+		// 		});
+		// 	})
+		// 	data.forEach(function(item) {
+		// 		item.y+= HEIGHT;
+		// 		if(item.y == canvas.height) {f=true};
+
+		// 	});
+		// 	if(f===true) {return};
+		// 	window.setTimeout(moveSquare, 1000, data);
+		// }
+		// moveSquare(obj_1);
+		// window.setTimeout(moveSquare, 6000, obj_2);
+		// window.setTimeout(moveSquare, 10000, obj_3);
+		// window.setTimeout(moveSquare, 14000, obj_4);
+		// window.setTimeout(moveSquare, 18000, obj_5);
+		// window.setTimeout(moveSquare, 22000, obj_6);
+
+
+		window.addEventListener('keydown', function(event) {
+			if(event.keyCode == 39) {
+					obj_4.forEach(function(item){
+						ctx.clearRect(item.x, item.y-50, WIDTH, HEIGHT);
+						item.x += 50;
+					});
+				} else if(event.keyCode == 37) {
+					obj_4.forEach(function(item){
+						ctx.clearRect(item.x, item.y-50, WIDTH, HEIGHT);
+						item.x -= 50;
+					});
+				} 
+		});
+ 
+
+
+		// list.forEach(function(item) {
+		// 	obj_4.forEach(function(obj) {
+		// 		if((obj.x == item.x) && (obj.y == item.y)) {
+		// 			item.filled = true;
+		// 			ctx.fillStyle = 'green';
+		// 			ctx.fillRect(item.x, item.y, WIDTH, HEIGHT);
+		// 		}
+		// 	});
+		// })
+	// зарисовать все поле 
+		
+		// list.forEach(function(item) {
+		// 	// console.log(item)
+		// 		ctx.fillStyle = 'green';
+		// 		ctx.fillRect(item.x, item.y, WIDTH, HEIGHT);
+		// 		console.log(item.x, item.y, WIDTH, HEIGHT)
+		// });
+
+	</script>
+</body>
+</html>
+

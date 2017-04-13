@@ -68,45 +68,118 @@
 		var square3 = {x: 200, y: 0};
 		var square4 = {x: 200, y: 0};
 		var square5 = {x: 200, y: 0};
-		// var nextSquare = { x: list[2].x, y: list[2].y + 50};
-		// list.forEach(function(item) {
-		// 	if((nextSquare.x == item.x) && (nextSquare.y == item.y)) {
-		// 		item.filled = true;
-		// 	}
 
-		// });
-		// app.fillSquare();
-		console.log(list)
 
-		
-		function moveSquare(square) {
+		var X = 200;
+
+		var obj_1 = [
+			{x: X, y: 0}, 
+			{x: X+WIDTH, y: 0},   
+			{x: X+WIDTH*2, y:0},   
+			{x: X+WIDTH*3, y:0}  
+		];
+		var obj_2 = [
+			{x: X, y:HEIGHT},   
+			{x: X+WIDTH, y:HEIGHT},  
+			{x: X, y: 0}, 
+			{x: X+WIDTH, y:0},   
+		];
+		var obj_3 = [
+			{x: X, y: HEIGHT},  
+			{x: X+WIDTH, y:HEIGHT},   
+			{x: X+WIDTH*2, y:HEIGHT}, 
+			{x: X+WIDTH*2, y: 0},  
+		];
+		var obj_4 = [
+			{x: X, y: HEIGHT},  
+			{x: X, y: 0},  
+			{x: X+WIDTH, y:HEIGHT},   
+			{x: X+WIDTH*2, y:HEIGHT}  
+		];
+		var obj_5 = [
+			{x: X, y: HEIGHT}, 
+			{x: X+WIDTH, y:HEIGHT},   
+			{x: X+WIDTH, y:0},   
+			{x: X+WIDTH*2, y:0}  
+		];
+		var obj_6 = [
+			{x: X+WIDTH, y: HEIGHT},   
+			{x: X+WIDTH*2, y: HEIGHT},  
+			{x: X+WIDTH, y: 0},   
+			{x: X, y: 0}, 
+		];
+
+		function moveSquare(data) {
 			var f = false;
 			list.forEach(function(item) {
-				if((square.x == item.x) && (square.y-HEIGHT == item.y)) {
-					item.filled = false;
-					ctx.clearRect(item.x,item.y, WIDTH, HEIGHT);
-				} else if ((square.x == item.x) && (square.y == item.y)) {
-					item.filled = true;
-					ctx.fillStyle = 'green';
-					ctx.fillRect(item.x, item.y, WIDTH, HEIGHT);
-				};
-				if((square.y+50 == item.y) && (item.filled == true)) {f = true;};
+				data.forEach(function(obj) {
+					if((obj.y+50 == item.y) && (item.filled == true)) {f=true;};
+				});
+			}); 
+			list.forEach(function(item) {
+				data.forEach(function(obj) {
+					if((obj.x == item.x) && (obj.y-HEIGHT == item.y)) {
+							item.filled = false;
+							ctx.clearRect(item.x,item.y, WIDTH, HEIGHT);
+					} else if((obj.x == item.x) && (obj.y == item.y)) {
+						item.filled = true;
+						ctx.fillStyle = 'green';
+						ctx.fillRect(item.x, item.y, WIDTH, HEIGHT);
+					}
+				});
+			})
+			data.forEach(function(item) {
+				item.y+= HEIGHT;
+				if(item.y == canvas.height) {f=true};
 			});
-			if(f===true) {return}
-			square.y += HEIGHT;
-
-			//  
-
-			if(square.y == canvas.height) {return};
-
-			window.setTimeout(moveSquare, 1000, square);
+			if(f===true) {return};
+			window.setTimeout(moveSquare, 1000, data);
+			
 		}
-		moveSquare(square);
-		window.setTimeout(moveSquare, 3000, square2);
-		window.setTimeout(moveSquare, 7000, square3);
-		window.setTimeout(moveSquare, 10000, square4);
-		window.setTimeout(moveSquare, 12000, square5);
-		
+		moveSquare(obj_3);
+		window.setTimeout(moveSquare, 6000, obj_2);
+		window.setTimeout(moveSquare, 10000, obj_1);
+		window.setTimeout(moveSquare, 14000, obj_4);
+		window.setTimeout(moveSquare, 18000, obj_5);
+		window.setTimeout(moveSquare, 22000, obj_6);
+		var moveRight = function() {
+			alert('dasda')
+		}
+
+		window.addEventListener('keydown', function(event) {
+			if(event.keyCode == 39) {
+ 
+					obj_4.forEach(function(item){
+					// 	item.x += 50;
+						console.log(item)
+					});
+				}	
+			// } else if(event.keyCode == 37) {
+			// 	function moveLeft() {
+			// 		obj_4.forEach(function(item){
+			// 			item.x -= 50;
+			// 		});
+			// 	}
+			// } 
+		})
+ 
+
+		// canvas.onclick = function() {
+		// 	ctx.fillStyle = 'blue';
+		// 	ctx.fillRect(200, 850, WIDTH, HEIGHT);
+		// }
+
+
+
+		// list.forEach(function(item) {
+		// 	obj_4.forEach(function(obj) {
+		// 		if((obj.x == item.x) && (obj.y == item.y)) {
+		// 			item.filled = true;
+		// 			ctx.fillStyle = 'green';
+		// 			ctx.fillRect(item.x, item.y, WIDTH, HEIGHT);
+		// 		}
+		// 	});
+		// })
 	// зарисовать все поле 
 		
 		// list.forEach(function(item) {
